@@ -188,6 +188,12 @@ src/polytwin/
 
 ---
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=datanaan/polymorphic-twin&type=Date)](https://star-history.com/#datanaan/polymorphic-twin&Date)
+
+---
+
 ## License
 
 Apache 2.0 — see [LICENSE](LICENSE).
