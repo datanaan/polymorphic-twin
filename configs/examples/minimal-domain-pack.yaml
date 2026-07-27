@@ -1,0 +1,319 @@
+# configs/examples/minimal-domain-pack.yaml
+# Polymorphic-Twin 首个示例 DomainPack
+# 场景：简化的工业设备监控（演示用，非真实工业场景）
+
+domain_id: "example.minimal_device_monitor"
+domain_name: "最小设备监控场景"
+domain_version: "0.1.0"
+
+# ── 继承策略 ──
+inheritance_policy:
+  can_relax_parent_absolute_constraints: false
+  can_lower_parent_criticality: false
+  conflict_resolution: "stricter_wins"
+  parent_update_action: "require_recertification"
+  parent_retirement_action_by_reason:
+    safety_issue: "immediate_degrade_and_require_recertification"
+    superseded: "mark_requires_upgrade_with_deadline"
+    obsolete: "warn_and_prohibit_new_instantiation"
+    administrative: "human_review_required"
+
+# ── 刚性-关键性兼容规则 ──
+rigidity_criticality_compatibility:
+  safety_critical: "must_be_absolute"
+  identity_critical: "absolute_or_strictly_audited"
+  operational: "absolute_or_soft_or_learnable"
+  informational: "soft_or_learnable"
+
+# ── 状态语义 ──
+state_semantics_template:
+  ontology_reference: "example:minimal_device"
+  variables:
+    - name: "temperature"
+      physical_meaning: "设备核心温度"
+      unit: "celsius"
+      range_min: -20.0
+      range_max: 200.0
+      observability: "observable"
+      controllability: "partially_controllable"
+      measurement_source: "thermocouple_internal"
+      required: true
+
+    - name: "pressure"
+      physical_meaning: "内部压力"
+      unit: "bar"
+      range_min: 0.0
+      range_max: 50.0
+      observability: "observable"
+      controllability: "controllable"
+      measurement_source: "pressure_gauge_1"
+      required: true
+
+    - name: "operating_mode"
+      physical_meaning: "设备运行模式"
+      unit: "enum"
+      range_min: 0
+      range_max: 0
+      observability: "observable"
+      controllability: "controllable"
+      required: true
+
+    - name: "vibration_freq"
+      physical_meaning: "振动主频率"
+      unit: "Hz"
+      range_min: 0.0
+      range_max: 5000.0
+      observability: "observable"
+      controllability: "uncontrollable"
+      measurement_source: "accelerometer_1"
+      required: false
+
+    - name: "output_quality"
+      physical_meaning: "产出质量指标"
+      unit: "percentage"
+      range_min: 0.0
+      range_max: 100.0
+      observability: "observable"
+      controllability: "partially_controllable"
+      required: true
+
+# ── 约束卡片 ──
+constraint_cards:
+  knowledge_base_reference: "example:minimal_device:constraints"
+
+  absolute:
+    # 安全关键约束：温度上限
+    - constraint_id: "temp_safety_limit"
+      scenario_criticality: "safety_critical"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "temperature"
+            min: -20.0
+            max: 200.0
+            inclusive: true
+          - type: "sensor_status"
+            sensor_id: "thermocouple_internal"
+            required_status: "active"
+        match_mode: "all"
+      validation:
+        method: "range_check"
+        config:
+          variable: "temperature"
+          max: 180.0
+          inclusive: true
+      tolerance:
+        absolute: 2.0
+      violation_priority: 1
+
+    # 安全关键约束：压力上限
+    - constraint_id: "pressure_safety_limit"
+      scenario_criticality: "safety_critical"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "pressure"
+            min: 0.0
+            max: 50.0
+            inclusive: true
+        match_mode: "all"
+      validation:
+        method: "range_check"
+        config:
+          variable: "pressure"
+          max: 45.0
+          inclusive: true
+      tolerance:
+        absolute: 1.0
+      violation_priority: 1
+
+    # 身份关键约束：振动频率应在物理合理范围
+    - constraint_id: "vibration_physical_range"
+      scenario_criticality: "identity_critical"
+      domain_of_validity:
+        conditions:
+          - type: "state_enum"
+            variable: "operating_mode"
+            values: ["normal", "startup"]
+          - type: "identity_confidence"
+            min_confidence: 0.7
+        match_mode: "all"
+      validation:
+        method: "range_check"
+        config:
+          variable: "vibration_freq"
+          min: 10.0
+          max: 3000.0
+          inclusive: true
+      tolerance:
+        absolute: 50.0
+      violation_priority: 2
+
+    # 操作约束：温度-压力耦合范围
+    - constraint_id: "temp_pressure_coupling"
+      scenario_criticality: "operational"
+      domain_of_validity:
+        conditions:
+          - type: "composite"
+            operator: "and"
+            sub_conditions:
+              - type: "state_range"
+                variable: "temperature"
+                min: 50.0
+                max: 180.0
+                inclusive: true
+              - type: "state_range"
+                variable: "pressure"
+                min: 5.0
+                max: 45.0
+                inclusive: true
+        match_mode: "all"
+      validation:
+        method: "range_check"
+        config:
+          variable: "pressure"
+          max: 40.0
+          inclusive: true
+      tolerance:
+        percentage: 5.0
+      violation_priority: 3
+
+  soft:
+    - constraint_id: "output_quality_target"
+      weight: 0.8
+      scenario_criticality: "operational"
+      domain_of_validity:
+        conditions:
+          - type: "state_enum"
+            variable: "operating_mode"
+            values: ["normal"]
+        match_mode: "all"
+      validation:
+        method: "threshold_exceeded"
+        config:
+          variable: "output_quality"
+          min: 85.0
+
+  learnable: []
+
+# ── 安全回落策略 ──
+safe_fallback:
+  policy_id: "minimal_safe_shutdown"
+  domain_of_validity:
+    conditions: []
+    match_mode: "all"
+  verified_initial_set:
+    - temperature: 25.0
+      pressure: 1.0
+      operating_mode: "shutdown"
+  invariant_safe_set:
+    - temperature: [0.0, 30.0]
+      pressure: [0.0, 2.0]
+  robustness_margin: 0.15
+  target_state:
+    state_description: "安全停机：温度降至 30°C 以下，压力降至 2 bar 以下"
+    state_parameters:
+      temperature: 25.0
+      pressure: 1.0
+      operating_mode: "shutdown"
+  trajectory_constraints:
+    max_rate:
+      temperature: 10.0  # °C/s
+      pressure: 5.0      # bar/s
+    forbidden_zones:
+      - temperature: [150, 200]
+        pressure: [30, 50]
+  max_duration: "PT5M"
+  unavailable_action: "safe_shutdown"
+  post_fallback_action: "hold"
+  verification_record:
+    verified_in_simulation: false
+    verified_scenarios: []
+    last_verification_date: "2026-01-01T00:00:00Z"
+
+# ── 行动模板 ──
+action_templates:
+  knowledge_base_reference: "example:minimal_device:actions"
+
+  immediate_action_types:
+    - action_type_id: "observe_status"
+      description_template: "观测当前设备状态"
+      applicable_when: []
+      monitoring_requirements:
+        - "thermocouple_internal"
+        - "pressure_gauge_1"
+      fallback_if_fails: "hold"
+
+    - action_type_id: "adjust_pressure"
+      description_template: "微调内部压力（±2 bar 范围内）"
+      applicable_when:
+        - "operating_mode == 'normal'"
+        - "fallback_available == true"
+      monitoring_requirements:
+        - "pressure_gauge_1"
+      fallback_if_fails: "safe_shutdown"
+
+  conditional_action_types:
+    - action_type_id: "calibrate_sensors"
+      description_template: "重新校准传感器"
+      typical_prerequisites:
+        - "operating_mode == 'shutdown'"
+        - "all_sensors_active == true"
+      risk_profile:
+        risk_level: "low"
+        reversible: true
+
+  forbidden_action_types:
+    - action_type_id: "override_safety_limits"
+      description_template: "覆盖安全限制"
+      typical_prohibition_reasons:
+        - "safety_critical 约束不可覆盖"
+    - action_type_id: "force_full_power"
+      description_template: "强制满功率运行"
+      typical_prohibition_reasons:
+        - "需要 Core 资格验证"
+
+# ── 人类角色 ──
+human_roles:
+  - role_id: "operator"
+    role_name: "设备操作员"
+    authorized_action_types: ["observe_status", "adjust_pressure"]
+    exception_request_authority:
+      can_request_review: true
+      can_request_recertification: false
+      can_request_constraint_revision: false
+      can_initiate_human_takeover: true
+      can_initiate_safe_shutdown: true
+    approval_required_for: []
+
+  - role_id: "supervisor"
+    role_name: "值班主管"
+    authorized_action_types: ["observe_status", "adjust_pressure", "calibrate_sensors"]
+    exception_request_authority:
+      can_request_review: true
+      can_request_recertification: true
+      can_request_constraint_revision: true
+      can_initiate_human_takeover: true
+      can_initiate_safe_shutdown: true
+    approval_required_for: ["calibrate_sensors"]
+
+# ── 验证集引用 ──
+validation_sets:
+  public_eval_set_reference: "example:minimal_device:public_eval"
+  audit_benchmark_reference: "example:minimal_device:audit_benchmark"
+  production_acceptance_reference: "example:minimal_device:production_acceptance"
+
+# ── 身份监控配置 ──
+identity_monitor_config:
+  identity_check_interval: 1.0
+  drift_tolerance: 0.05
+  drift_trend_window: 100
+  drift_trend_threshold: 0.02
+  identity_uncertain_timeout: 30.0
+
+# ── 元信息 ──
+created_at: "2026-05-07T00:00:00Z"
+last_modified_at: "2026-05-07T00:00:00Z"
+certified_by: "initial_design"
+certification_date: "2026-05-07T00:00:00Z"
+applicability_scope: "演示用最小设备监控场景"

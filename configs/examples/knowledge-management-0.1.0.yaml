@@ -1,0 +1,266 @@
+# configs/examples/knowledge-management-0.1.0.yaml
+# Polymorphic-Twin DomainPack: Personal Knowledge Management
+# Scenario: Theory document and knowledge base governance
+
+domain_id: "knowledge.personal_mgmt"
+domain_name: "个人知识管理"
+domain_version: "0.1.0"
+
+# ── 继承策略 ──
+inheritance_policy:
+  can_relax_parent_absolute_constraints: false
+  can_lower_parent_criticality: false
+  conflict_resolution: "stricter_wins"
+  parent_update_action: "require_recertification"
+  parent_retirement_action_by_reason:
+    safety_issue: "immediate_degrade_and_require_recertification"
+    superseded: "mark_requires_upgrade_with_deadline"
+    obsolete: "warn_and_prohibit_new_instantiation"
+    administrative: "human_review_required"
+
+# ── 刚性-关键性兼容规则 ──
+rigidity_criticality_compatibility:
+  safety_critical: "must_be_absolute"
+  identity_critical: "absolute_or_strictly_audited"
+  operational: "absolute_or_soft_or_learnable"
+  informational: "soft_or_learnable"
+
+# ── 状态语义 ──
+state_semantics_template:
+  ontology_reference: "knowledge:personal_mgmt"
+  variables:
+    - name: "knowledge_freshness"
+      physical_meaning: "知识条目最近更新距今天数"
+      unit: "days"
+      range_min: 0.0
+      range_max: 365.0
+      observability: "observable"
+      controllability: "controllable"
+      measurement_source: "kb_timestamp_tracker"
+      required: true
+
+    - name: "link_density"
+      physical_meaning: "知识条目间交叉引用数量"
+      unit: "count"
+      range_min: 0.0
+      range_max: 1000.0
+      observability: "observable"
+      controllability: "controllable"
+      measurement_source: "kb_graph_analyzer"
+      required: true
+
+    - name: "coverage_ratio"
+      physical_meaning: "知识库覆盖目标领域比例"
+      unit: "ratio"
+      range_min: 0.0
+      range_max: 1.0
+      observability: "observable"
+      controllability: "partially_controllable"
+      measurement_source: "kb_coverage_scanner"
+      required: true
+
+    - name: "contradiction_count"
+      physical_meaning: "知识条目间矛盾数量"
+      unit: "count"
+      range_min: 0.0
+      range_max: 100.0
+      observability: "observable"
+      controllability: "uncontrollable"
+      measurement_source: "kb_contradiction_detector"
+      required: true
+
+    - name: "usage_frequency"
+      physical_meaning: "知识条目每周使用频次"
+      unit: "count/week"
+      range_min: 0.0
+      range_max: 100.0
+      observability: "observable"
+      controllability: "uncontrollable"
+      measurement_source: "kb_usage_tracker"
+      required: true
+
+# ── 约束卡片 ──
+constraint_cards:
+  knowledge_base_reference: "knowledge:personal_mgmt:constraints"
+
+  absolute:
+    # 操作约束：知识新鲜度上限
+    - constraint_id: "freshness_limit"
+      scenario_criticality: "operational"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "knowledge_freshness"
+            min: 0.0
+            max: 365.0
+            inclusive: true
+        match_mode: "all"
+      validation:
+        method: "range_check"
+        config:
+          variable: "knowledge_freshness"
+          max: 90.0
+          inclusive: true
+      tolerance:
+        absolute: 5.0
+      violation_priority: 2
+
+  soft:
+    # 操作约束：覆盖率目标
+    - constraint_id: "coverage_target"
+      weight: 0.6
+      scenario_criticality: "operational"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "coverage_ratio"
+            min: 0.0
+            max: 1.0
+            inclusive: true
+        match_mode: "all"
+      validation:
+        method: "threshold_exceeded"
+        config:
+          variable: "coverage_ratio"
+          min: 0.6
+
+    # 操作约束：矛盾数量限制
+    - constraint_id: "contradiction_limit"
+      weight: 0.4
+      scenario_criticality: "operational"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "contradiction_count"
+            min: 0.0
+            max: 100.0
+            inclusive: true
+        match_mode: "all"
+      validation:
+        method: "threshold_exceeded"
+        config:
+          variable: "contradiction_count"
+          max: 3.0
+
+  learnable: []
+
+# ── 安全回落策略 ──
+safe_fallback:
+  policy_id: "knowledge_review_fallback"
+  domain_of_validity:
+    conditions: []
+    match_mode: "all"
+  verified_initial_set:
+    - knowledge_freshness: 0.0
+      link_density: 0.0
+      coverage_ratio: 1.0
+      contradiction_count: 0.0
+      usage_frequency: 0.0
+  invariant_safe_set:
+    - contradiction_count: [0.0, 5.0]
+  robustness_margin: 0.1
+  target_state:
+    state_description: "人工审查：标记所有过期和矛盾条目，等待人工处理"
+    state_parameters:
+      knowledge_freshness: 0.0
+      coverage_ratio: 1.0
+      contradiction_count: 0.0
+  trajectory_constraints:
+    max_rate:
+      knowledge_freshness: 7.0  # days/step
+      contradiction_count: 1.0  # count/step
+    forbidden_zones: []
+  max_duration: "PT24H"
+  unavailable_action: "human_review"
+  post_fallback_action: "hold"
+  verification_record:
+    verified_in_simulation: false
+    verified_scenarios: []
+    last_verification_date: "2026-05-01T00:00:00Z"
+
+# ── 行动模板 ──
+action_templates:
+  knowledge_base_reference: "knowledge:personal_mgmt:actions"
+
+  immediate_action_types:
+    - action_type_id: "review_entries"
+      description_template: "审查知识条目"
+      applicable_when: []
+      monitoring_requirements:
+        - "kb_timestamp_tracker"
+        - "kb_contradiction_detector"
+      fallback_if_fails: "hold"
+
+    - action_type_id: "update_entry"
+      description_template: "更新知识条目"
+      applicable_when:
+        - "knowledge_freshness > 30"
+        - "fallback_available == true"
+      monitoring_requirements:
+        - "kb_timestamp_tracker"
+      fallback_if_fails: "human_review"
+
+  conditional_action_types:
+    - action_type_id: "merge_contradictions"
+      description_template: "合并矛盾条目"
+      typical_prerequisites:
+        - "contradiction_count > 0"
+        - "human_review_completed == true"
+      risk_profile:
+        risk_level: "medium"
+        reversible: true
+
+  forbidden_action_types:
+    - action_type_id: "auto_delete_entries"
+      description_template: "自动删除知识条目"
+      typical_prohibition_reasons:
+        - "知识条目删除需人工审批"
+    - action_type_id: "force_merge_all"
+      description_template: "强制合并所有条目"
+      typical_prohibition_reasons:
+        - "需要人工审查确认无矛盾"
+
+# ── 人类角色 ──
+human_roles:
+  - role_id: "reader"
+    role_name: "知识库读者"
+    authorized_action_types: ["review_entries"]
+    exception_request_authority:
+      can_request_review: true
+      can_request_recertification: false
+      can_request_constraint_revision: false
+      can_initiate_human_takeover: false
+      can_initiate_safe_shutdown: false
+    approval_required_for: []
+
+  - role_id: "editor"
+    role_name: "知识库编辑"
+    authorized_action_types: ["review_entries", "update_entry", "merge_contradictions"]
+    exception_request_authority:
+      can_request_review: true
+      can_request_recertification: true
+      can_request_constraint_revision: false
+      can_initiate_human_takeover: true
+      can_initiate_safe_shutdown: true
+    approval_required_for: ["merge_contradictions"]
+
+# ── 验证集引用 ──
+validation_sets:
+  public_eval_set_reference: "knowledge:personal_mgmt:public_eval"
+  audit_benchmark_reference: "knowledge:personal_mgmt:audit_benchmark"
+  production_acceptance_reference: "knowledge:personal_mgmt:production_acceptance"
+
+# ── 身份监控配置 ──
+identity_monitor_config:
+  identity_check_interval: 60.0
+  drift_tolerance: 0.1
+  drift_trend_window: 50
+  drift_trend_threshold: 0.05
+  identity_uncertain_timeout: 300.0
+
+# ── 元信息 ──
+created_at: "2026-05-20T00:00:00Z"
+last_modified_at: "2026-05-20T00:00:00Z"
+certified_by: "initial_design"
+certification_date: "2026-05-20T00:00:00Z"
+applicability_scope: "个人知识管理场景（理论文档治理）"

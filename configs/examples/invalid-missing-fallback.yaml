@@ -1,0 +1,33 @@
+# configs/examples/invalid-missing-fallback.yaml
+# 故意违反：缺少 safe_fallback.target_state
+domain_id: "test.invalid_missing_fallback"
+domain_name: "违规测试：缺少回落目标"
+domain_version: "0.0.1"
+
+state_semantics_template:
+  ontology_reference: "test"
+  variables: []
+
+constraint_cards:
+  knowledge_base_reference: "test"
+  absolute: []
+  soft: []
+  learnable: []
+
+safe_fallback:
+  policy_id: "test"
+  domain_of_validity: {conditions: [], match_mode: "all"}
+  # 故意缺少 target_state
+  trajectory_constraints: {max_rate: {}, forbidden_zones: []}
+  max_duration: "PT0S"
+  unavailable_action: "freeze"
+  post_fallback_action: "hold"
+  verification_record: {verified_in_simulation: false, verified_scenarios: [], last_verification_date: "2026-01-01T00:00:00Z"}
+
+action_templates:
+  knowledge_base_reference: "test"
+  immediate_action_types: []
+  conditional_action_types: []
+  forbidden_action_types: []
+
+human_roles: []

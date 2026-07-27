@@ -1,0 +1,308 @@
+{
+  "name": "Oscillation",
+  "description": "Oscillating temperature and pressure values simulating control instability",
+  "domain_pack_id": "demo.cstr",
+  "ticks": [
+    {
+      "tick": 1,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 204.79,
+        "coolant_flow": 42.63,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.15
+      }
+    },
+    {
+      "tick": 2,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 208.41,
+        "coolant_flow": 41.62,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.28
+      }
+    },
+    {
+      "tick": 3,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 209.97,
+        "coolant_flow": 40.21,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.39
+      }
+    },
+    {
+      "tick": 4,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 209.09,
+        "coolant_flow": 38.75,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.47
+      }
+    },
+    {
+      "tick": 5,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 205.98,
+        "coolant_flow": 37.6,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.5
+      }
+    },
+    {
+      "tick": 6,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 201.41,
+        "coolant_flow": 37.03,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.49
+      }
+    },
+    {
+      "tick": 7,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 196.49,
+        "coolant_flow": 37.19,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.43
+      }
+    },
+    {
+      "tick": 8,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 192.43,
+        "coolant_flow": 38.04,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.34
+      }
+    },
+    {
+      "tick": 9,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 190.22,
+        "coolant_flow": 39.37,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.21
+      }
+    },
+    {
+      "tick": 10,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 190.41,
+        "coolant_flow": 40.85,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.07
+      }
+    },
+    {
+      "tick": 11,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 192.94,
+        "coolant_flow": 42.13,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.92
+      }
+    },
+    {
+      "tick": 12,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 197.21,
+        "coolant_flow": 42.88,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.78
+      }
+    },
+    {
+      "tick": 13,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 202.15,
+        "coolant_flow": 42.93,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.66
+      }
+    },
+    {
+      "tick": 14,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 206.57,
+        "coolant_flow": 42.26,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.56
+      }
+    },
+    {
+      "tick": 15,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 209.38,
+        "coolant_flow": 41.04,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.51
+      }
+    },
+    {
+      "tick": 16,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 209.89,
+        "coolant_flow": 39.56,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.5
+      }
+    },
+    {
+      "tick": 17,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 207.98,
+        "coolant_flow": 38.19,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.54
+      }
+    },
+    {
+      "tick": 18,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 204.12,
+        "coolant_flow": 37.27,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.61
+      }
+    },
+    {
+      "tick": 19,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 199.25,
+        "coolant_flow": 37.01,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.72
+      }
+    },
+    {
+      "tick": 20,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 194.56,
+        "coolant_flow": 37.48,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.86
+      }
+    },
+    {
+      "tick": 21,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 191.2,
+        "coolant_flow": 38.57,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.01
+      }
+    },
+    {
+      "tick": 22,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 190.0,
+        "coolant_flow": 40.01,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.16
+      }
+    },
+    {
+      "tick": 23,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 191.25,
+        "coolant_flow": 41.45,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.29
+      }
+    },
+    {
+      "tick": 24,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 194.63,
+        "coolant_flow": 42.53,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.4
+      }
+    },
+    {
+      "tick": 25,
+      "type": "oscillation",
+      "state": {
+        "reactor_temp": 199.34,
+        "coolant_flow": 42.99,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0,
+        "vessel_pressure": 5.47
+      }
+    }
+  ],
+  "expected_result": "mixed"
+}

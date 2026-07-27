@@ -1,0 +1,399 @@
+# configs/examples/cstr-demo-0.1.0.yaml
+# Polymorphic-Twin DomainPack: CSTR Demo Scenario
+# A detailed demo-oriented CSTR DomainPack for demonstration purposes.
+# More comprehensive than the M6 chemical-reactor-thermal DomainPack.
+
+domain_id: "demo.cstr"
+domain_name: "CSTR 演示场景"
+domain_version: "0.1.0"
+
+# ── 继承策略 ──
+inheritance_policy:
+  can_relax_parent_absolute_constraints: false
+  can_lower_parent_criticality: false
+  conflict_resolution: "stricter_wins"
+  parent_update_action: "require_recertification"
+  parent_retirement_action_by_reason:
+    safety_issue: "immediate_degrade_and_require_recertification"
+    superseded: "mark_requires_upgrade_with_deadline"
+    obsolete: "warn_and_prohibit_new_instantiation"
+    administrative: "human_review_required"
+
+# ── 刚性-关键性兼容规则 ──
+rigidity_criticality_compatibility:
+  safety_critical: "must_be_absolute"
+  identity_critical: "absolute_or_strictly_audited"
+  operational: "absolute_or_soft_or_learnable"
+  informational: "soft_or_learnable"
+
+# ── 状态语义 ──
+state_semantics_template:
+  ontology_reference: "demo:cstr"
+  variables:
+    - name: "reactor_temp"
+      physical_meaning: "反应器核心温度"
+      unit: "celsius"
+      range_min: 0.0
+      range_max: 400.0
+      observability: "observable"
+      controllability: "partially_controllable"
+      measurement_source: "thermocouple_reactor_core"
+      required: true
+
+    - name: "coolant_flow"
+      physical_meaning: "冷却剂流量"
+      unit: "L/min"
+      range_min: 0.0
+      range_max: 100.0
+      observability: "observable"
+      controllability: "controllable"
+      measurement_source: "flow_meter_coolant"
+      required: true
+
+    - name: "feed_rate"
+      physical_meaning: "进料速率"
+      unit: "L/min"
+      range_min: 0.0
+      range_max: 50.0
+      observability: "observable"
+      controllability: "controllable"
+      measurement_source: "flow_meter_feed"
+      required: true
+
+    - name: "concentration_a"
+      physical_meaning: "反应物A浓度"
+      unit: "mol/L"
+      range_min: 0.0
+      range_max: 10.0
+      observability: "observable"
+      controllability: "partially_controllable"
+      measurement_source: "spectrometer_a"
+      required: true
+
+    - name: "concentration_b"
+      physical_meaning: "产物B浓度"
+      unit: "mol/L"
+      range_min: 0.0
+      range_max: 10.0
+      observability: "observable"
+      controllability: "partially_controllable"
+      measurement_source: "spectrometer_b"
+      required: true
+
+    - name: "vessel_pressure"
+      physical_meaning: "容器内部压力"
+      unit: "bar"
+      range_min: 0.0
+      range_max: 20.0
+      observability: "observable"
+      controllability: "controllable"
+      measurement_source: "pressure_gauge_vessel"
+      required: true
+
+# ── 约束卡片 ──
+constraint_cards:
+  knowledge_base_reference: "demo:cstr:constraints"
+
+  absolute:
+    # 安全关键约束：反应器温度上限 350°C
+    - constraint_id: "temp_safety"
+      scenario_criticality: "safety_critical"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "reactor_temp"
+            min: 0.0
+            max: 400.0
+            inclusive: true
+          - type: "sensor_status"
+            sensor_id: "thermocouple_reactor_core"
+            required_status: "active"
+        match_mode: "all"
+      validation:
+        method: "range_check"
+        config:
+          variable: "reactor_temp"
+          max: 350.0
+          inclusive: true
+      tolerance:
+        absolute: 5.0
+      violation_priority: 1
+
+    # 安全关键约束：容器压力上限 15 bar
+    - constraint_id: "pressure_safety"
+      scenario_criticality: "safety_critical"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "vessel_pressure"
+            min: 0.0
+            max: 20.0
+            inclusive: true
+        match_mode: "all"
+      validation:
+        method: "range_check"
+        config:
+          variable: "vessel_pressure"
+          max: 15.0
+          inclusive: true
+      tolerance:
+        absolute: 0.5
+      violation_priority: 1
+
+    # 身份关键约束：放热反应速率在合理范围
+    - constraint_id: "exothermic_rate"
+      scenario_criticality: "identity_critical"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "reactor_temp"
+            min: 50.0
+            max: 350.0
+            inclusive: true
+          - type: "identity_confidence"
+            min_confidence: 0.7
+        match_mode: "all"
+      validation:
+        method: "range_check"
+        config:
+          variable: "reactor_temp"
+          min: 50.0
+          max: 350.0
+          inclusive: true
+      tolerance:
+        percentage: 10.0
+      violation_priority: 2
+
+    # 操作约束：质量平衡
+    - constraint_id: "mass_balance"
+      scenario_criticality: "operational"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "feed_rate"
+            min: 0.0
+            max: 50.0
+            inclusive: true
+        match_mode: "all"
+      validation:
+        method: "range_check"
+        config:
+          variable: "feed_rate"
+          max: 50.0
+          inclusive: true
+      tolerance:
+        percentage: 5.0
+      violation_priority: 3
+
+    # 操作约束：冷却剂充足
+    - constraint_id: "coolant_sufficient"
+      scenario_criticality: "operational"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "coolant_flow"
+            min: 0.0
+            max: 100.0
+            inclusive: true
+          - type: "state_range"
+            variable: "reactor_temp"
+            min: 50.0
+            max: 350.0
+            inclusive: true
+        match_mode: "all"
+      validation:
+        method: "range_check"
+        config:
+          variable: "coolant_flow"
+          min: 5.0
+          inclusive: true
+      tolerance:
+        percentage: 10.0
+      violation_priority: 3
+
+  soft:
+    # 操作约束：产物转化率目标 ≥ 85%
+    - constraint_id: "conversion_target"
+      weight: 0.8
+      scenario_criticality: "operational"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "concentration_a"
+            min: 0.0
+            max: 10.0
+            inclusive: true
+        match_mode: "all"
+      validation:
+        method: "threshold_exceeded"
+        config:
+          variable: "concentration_b"
+          min: 1.7
+
+    # 操作约束：选择性目标 ≥ 90%
+    - constraint_id: "selectivity_target"
+      weight: 0.7
+      scenario_criticality: "operational"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "concentration_b"
+            min: 0.0
+            max: 10.0
+            inclusive: true
+        match_mode: "all"
+      validation:
+        method: "threshold_exceeded"
+        config:
+          variable: "concentration_b"
+          min: 1.8
+
+  learnable: []
+
+# ── 安全回落策略 ──
+safe_fallback:
+  policy_id: "cstr_demo_emergency_shutdown"
+  domain_of_validity:
+    conditions: []
+    match_mode: "all"
+  verified_initial_set:
+    - reactor_temp: 25.0
+      coolant_flow: 50.0
+      feed_rate: 0.0
+      concentration_a: 0.0
+      concentration_b: 0.0
+      vessel_pressure: 1.0
+  invariant_safe_set:
+    - reactor_temp: [0.0, 30.0]
+      vessel_pressure: [0.5, 2.0]
+  robustness_margin: 0.15
+  target_state:
+    state_description: "紧急停机：反应器温度降至25°C，冷却剂流量50 L/min，进料停止，压力降至1 bar"
+    state_parameters:
+      reactor_temp: 25.0
+      coolant_flow: 50.0
+      feed_rate: 0.0
+      concentration_a: 0.0
+      concentration_b: 0.0
+      vessel_pressure: 1.0
+  trajectory_constraints:
+    max_rate:
+      reactor_temp: 15.0  # °C/s
+      vessel_pressure: 3.0  # bar/s
+    forbidden_zones:
+      - reactor_temp: [300, 400]
+        vessel_pressure: [10, 20]
+  max_duration: "PT10M"
+  unavailable_action: "safe_shutdown"
+  post_fallback_action: "hold"
+  verification_record:
+    verified_in_simulation: true
+    verified_scenarios: ["demo_normal", "demo_drift", "demo_coolant_failure"]
+    last_verification_date: "2026-05-20T00:00:00Z"
+
+# ── 行动模板 ──
+action_templates:
+  knowledge_base_reference: "demo:cstr:actions"
+
+  immediate_action_types:
+    - action_type_id: "observe_status"
+      description_template: "观测反应器当前状态"
+      applicable_when: []
+      monitoring_requirements:
+        - "thermocouple_reactor_core"
+        - "pressure_gauge_vessel"
+        - "flow_meter_coolant"
+      fallback_if_fails: "hold"
+
+    - action_type_id: "adjust_coolant"
+      description_template: "调节冷却剂流量"
+      applicable_when:
+        - "coolant_flow >= 0"
+        - "fallback_available == true"
+      monitoring_requirements:
+        - "flow_meter_coolant"
+        - "thermocouple_reactor_core"
+      fallback_if_fails: "safe_shutdown"
+
+    - action_type_id: "adjust_feed_rate"
+      description_template: "调节进料速率"
+      applicable_when:
+        - "feed_rate >= 0"
+        - "fallback_available == true"
+      monitoring_requirements:
+        - "flow_meter_feed"
+        - "thermocouple_reactor_core"
+      fallback_if_fails: "safe_shutdown"
+
+  conditional_action_types:
+    - action_type_id: "recalibrate_sensors"
+      description_template: "重新校准传感器"
+      typical_prerequisites:
+        - "operating_mode == 'shutdown'"
+        - "all_sensors_active == true"
+      risk_profile:
+        risk_level: "low"
+        reversible: true
+
+    - action_type_id: "emergency_shutdown"
+      description_template: "紧急停机"
+      typical_prerequisites:
+        - "safety_fallback_triggered == true"
+      risk_profile:
+        risk_level: "high"
+        reversible: false
+
+  forbidden_action_types:
+    - action_type_id: "override_temp_limit"
+      description_template: "覆盖温度安全限制"
+      typical_prohibition_reasons:
+        - "safety_critical 约束不可覆盖"
+    - action_type_id: "bypass_safety"
+      description_template: "绕过安全检查"
+      typical_prohibition_reasons:
+        - "safety_critical 约束不可绕过"
+
+# ── 人类角色 ──
+human_roles:
+  - role_id: "operator"
+    role_name: "反应器操作员"
+    authorized_action_types: ["observe_status", "adjust_coolant", "adjust_feed_rate"]
+    exception_request_authority:
+      can_request_review: true
+      can_request_recertification: false
+      can_request_constraint_revision: false
+      can_initiate_human_takeover: true
+      can_initiate_safe_shutdown: true
+    approval_required_for: []
+
+  - role_id: "supervisor"
+    role_name: "值班主管"
+    authorized_action_types: ["observe_status", "adjust_coolant", "adjust_feed_rate", "recalibrate_sensors", "emergency_shutdown"]
+    exception_request_authority:
+      can_request_review: true
+      can_request_recertification: true
+      can_request_constraint_revision: true
+      can_initiate_human_takeover: true
+      can_initiate_safe_shutdown: true
+    approval_required_for: ["recalibrate_sensors", "emergency_shutdown"]
+
+# ── 验证集引用 ──
+validation_sets:
+  public_eval_set_reference: "demo:cstr:public_eval"
+  audit_benchmark_reference: "demo:cstr:audit_benchmark"
+  production_acceptance_reference: "demo:cstr:production_acceptance"
+
+# ── 身份监控配置 ──
+identity_monitor_config:
+  identity_check_interval: 0.5
+  drift_tolerance: 0.03
+  drift_trend_window: 200
+  drift_trend_threshold: 0.01
+  identity_uncertain_timeout: 15.0
+
+# ── 元信息 ──
+created_at: "2026-05-20T00:00:00Z"
+last_modified_at: "2026-05-20T00:00:00Z"
+certified_by: "initial_design"
+certification_date: "2026-05-20T00:00:00Z"
+applicability_scope: "CSTR演示场景：用于Polymorphic-Twin框架功能演示"

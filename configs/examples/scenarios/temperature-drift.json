@@ -1,0 +1,368 @@
+{
+  "name": "Temperature Drift",
+  "description": "Gradual temperature increase leading to constraint violation (reactor_temp exceeds 350 C)",
+  "domain_pack_id": "demo.cstr",
+  "ticks": [
+    {
+      "tick": 1,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 206.0,
+        "vessel_pressure": 5.25,
+        "coolant_flow": 39.4,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 2,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 212.0,
+        "vessel_pressure": 5.5,
+        "coolant_flow": 38.8,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 3,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 218.0,
+        "vessel_pressure": 5.75,
+        "coolant_flow": 38.2,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 4,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 224.0,
+        "vessel_pressure": 6.0,
+        "coolant_flow": 37.6,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 5,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 230.0,
+        "vessel_pressure": 6.25,
+        "coolant_flow": 37.0,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 6,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 236.0,
+        "vessel_pressure": 6.5,
+        "coolant_flow": 36.4,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 7,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 242.0,
+        "vessel_pressure": 6.75,
+        "coolant_flow": 35.8,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 8,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 248.0,
+        "vessel_pressure": 7.0,
+        "coolant_flow": 35.2,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 9,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 254.0,
+        "vessel_pressure": 7.25,
+        "coolant_flow": 34.6,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 10,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 260.0,
+        "vessel_pressure": 7.5,
+        "coolant_flow": 34.0,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 11,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 266.0,
+        "vessel_pressure": 7.75,
+        "coolant_flow": 33.4,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 12,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 272.0,
+        "vessel_pressure": 8.0,
+        "coolant_flow": 32.8,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 13,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 278.0,
+        "vessel_pressure": 8.25,
+        "coolant_flow": 32.2,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 14,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 284.0,
+        "vessel_pressure": 8.5,
+        "coolant_flow": 31.6,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 15,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 290.0,
+        "vessel_pressure": 8.75,
+        "coolant_flow": 31.0,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 16,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 296.0,
+        "vessel_pressure": 9.0,
+        "coolant_flow": 30.4,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 17,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 302.0,
+        "vessel_pressure": 9.25,
+        "coolant_flow": 29.8,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 18,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 308.0,
+        "vessel_pressure": 9.5,
+        "coolant_flow": 29.2,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 19,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 314.0,
+        "vessel_pressure": 9.75,
+        "coolant_flow": 28.6,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 20,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 320.0,
+        "vessel_pressure": 10.0,
+        "coolant_flow": 28.0,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 21,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 326.0,
+        "vessel_pressure": 10.25,
+        "coolant_flow": 27.4,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 22,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 332.0,
+        "vessel_pressure": 10.5,
+        "coolant_flow": 26.8,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 23,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 338.0,
+        "vessel_pressure": 10.75,
+        "coolant_flow": 26.2,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 24,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 344.0,
+        "vessel_pressure": 11.0,
+        "coolant_flow": 25.6,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 25,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 350.0,
+        "vessel_pressure": 11.25,
+        "coolant_flow": 25.0,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 26,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 356.0,
+        "vessel_pressure": 11.5,
+        "coolant_flow": 24.4,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 27,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 362.0,
+        "vessel_pressure": 11.75,
+        "coolant_flow": 23.8,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 28,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 368.0,
+        "vessel_pressure": 12.0,
+        "coolant_flow": 23.2,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 29,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 374.0,
+        "vessel_pressure": 12.25,
+        "coolant_flow": 22.6,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    },
+    {
+      "tick": 30,
+      "type": "drift",
+      "state": {
+        "reactor_temp": 380.0,
+        "vessel_pressure": 12.5,
+        "coolant_flow": 22.0,
+        "feed_rate": 10.0,
+        "concentration_a": 3.0,
+        "concentration_b": 2.0
+      }
+    }
+  ],
+  "expected_result": "constraint_violation"
+}

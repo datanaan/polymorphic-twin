@@ -1,0 +1,248 @@
+{
+  "name": "Normal Operation",
+  "description": "20 ticks of normal CSTR operation with small Gaussian fluctuations",
+  "domain_pack_id": "demo.cstr",
+  "ticks": [
+    {
+      "tick": 1,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 199.71,
+        "coolant_flow": 39.91,
+        "feed_rate": 9.98,
+        "concentration_a": 3.04,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.85
+      }
+    },
+    {
+      "tick": 2,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 200.66,
+        "coolant_flow": 39.87,
+        "feed_rate": 9.96,
+        "concentration_a": 3.01,
+        "concentration_b": 2.01,
+        "vessel_pressure": 5.12
+      }
+    },
+    {
+      "tick": 3,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 201.31,
+        "coolant_flow": 40.06,
+        "feed_rate": 9.85,
+        "concentration_a": 2.95,
+        "concentration_b": 2.01,
+        "vessel_pressure": 5.13
+      }
+    },
+    {
+      "tick": 4,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 200.08,
+        "coolant_flow": 39.95,
+        "feed_rate": 10.11,
+        "concentration_a": 2.93,
+        "concentration_b": 1.99,
+        "vessel_pressure": 5.05
+      }
+    },
+    {
+      "tick": 5,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 201.75,
+        "coolant_flow": 39.88,
+        "feed_rate": 10.08,
+        "concentration_a": 3.01,
+        "concentration_b": 2.02,
+        "vessel_pressure": 4.89
+      }
+    },
+    {
+      "tick": 6,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 201.14,
+        "coolant_flow": 39.24,
+        "feed_rate": 9.48,
+        "concentration_a": 2.97,
+        "concentration_b": 1.97,
+        "vessel_pressure": 5.09
+      }
+    },
+    {
+      "tick": 7,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 201.33,
+        "coolant_flow": 39.39,
+        "feed_rate": 10.17,
+        "concentration_a": 2.95,
+        "concentration_b": 2.0,
+        "vessel_pressure": 4.97
+      }
+    },
+    {
+      "tick": 8,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 200.23,
+        "coolant_flow": 40.41,
+        "feed_rate": 10.13,
+        "concentration_a": 3.02,
+        "concentration_b": 2.02,
+        "vessel_pressure": 5.05
+      }
+    },
+    {
+      "tick": 9,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 198.75,
+        "coolant_flow": 39.64,
+        "feed_rate": 9.91,
+        "concentration_a": 3.02,
+        "concentration_b": 1.99,
+        "vessel_pressure": 5.23
+      }
+    },
+    {
+      "tick": 10,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 198.36,
+        "coolant_flow": 39.45,
+        "feed_rate": 10.15,
+        "concentration_a": 3.07,
+        "concentration_b": 2.02,
+        "vessel_pressure": 5.08
+      }
+    },
+    {
+      "tick": 11,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 202.85,
+        "coolant_flow": 39.95,
+        "feed_rate": 9.72,
+        "concentration_a": 2.97,
+        "concentration_b": 2.03,
+        "vessel_pressure": 4.86
+      }
+    },
+    {
+      "tick": 12,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 200.07,
+        "coolant_flow": 40.13,
+        "feed_rate": 9.94,
+        "concentration_a": 3.04,
+        "concentration_b": 2.02,
+        "vessel_pressure": 5.23
+      }
+    },
+    {
+      "tick": 13,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 201.24,
+        "coolant_flow": 39.7,
+        "feed_rate": 9.89,
+        "concentration_a": 2.96,
+        "concentration_b": 2.03,
+        "vessel_pressure": 4.94
+      }
+    },
+    {
+      "tick": 14,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 199.86,
+        "coolant_flow": 40.37,
+        "feed_rate": 9.86,
+        "concentration_a": 2.99,
+        "concentration_b": 1.94,
+        "vessel_pressure": 4.89
+      }
+    },
+    {
+      "tick": 15,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 198.86,
+        "coolant_flow": 40.21,
+        "feed_rate": 10.24,
+        "concentration_a": 3.0,
+        "concentration_b": 2.01,
+        "vessel_pressure": 5.02
+      }
+    },
+    {
+      "tick": 16,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 202.17,
+        "coolant_flow": 40.45,
+        "feed_rate": 10.05,
+        "concentration_a": 2.95,
+        "concentration_b": 2.03,
+        "vessel_pressure": 5.04
+      }
+    },
+    {
+      "tick": 17,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 202.45,
+        "coolant_flow": 39.99,
+        "feed_rate": 10.39,
+        "concentration_a": 2.98,
+        "concentration_b": 2.05,
+        "vessel_pressure": 5.01
+      }
+    },
+    {
+      "tick": 18,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 198.97,
+        "coolant_flow": 39.44,
+        "feed_rate": 9.97,
+        "concentration_a": 3.07,
+        "concentration_b": 2.02,
+        "vessel_pressure": 5.07
+      }
+    },
+    {
+      "tick": 19,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 195.25,
+        "coolant_flow": 40.36,
+        "feed_rate": 10.11,
+        "concentration_a": 2.97,
+        "concentration_b": 1.98,
+        "vessel_pressure": 5.0
+      }
+    },
+    {
+      "tick": 20,
+      "type": "normal",
+      "state": {
+        "reactor_temp": 203.45,
+        "coolant_flow": 39.47,
+        "feed_rate": 9.91,
+        "concentration_a": 3.07,
+        "concentration_b": 1.99,
+        "vessel_pressure": 4.96
+      }
+    }
+  ],
+  "expected_result": "all_pass"
+}

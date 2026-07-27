@@ -1,0 +1,56 @@
+# configs/examples/invalid-undefined-variable.yaml
+# 故意违反：约束引用了未定义的状态变量
+domain_id: "test.invalid_undefined_var"
+domain_name: "违规测试：引用未定义变量"
+domain_version: "0.0.1"
+
+state_semantics_template:
+  ontology_reference: "test"
+  variables:
+    - name: "temp"
+      physical_meaning: "温度"
+      unit: "C"
+      range_min: 0
+      range_max: 100
+      observability: "observable"
+      controllability: "controllable"
+      required: true
+
+constraint_cards:
+  knowledge_base_reference: "test"
+  absolute:
+    - constraint_id: "bad_ref"
+      scenario_criticality: "operational"
+      domain_of_validity:
+        conditions:
+          - type: "state_range"
+            variable: "nonexistent_var"  # 违规！未定义
+            min: 0
+            max: 100
+            inclusive: true
+        match_mode: "all"
+      validation:
+        method: "range_check"
+        config:
+          variable: "also_nonexistent"  # 违规！未定义
+          max: 50
+  soft: []
+  learnable: []
+
+safe_fallback:
+  policy_id: "test"
+  domain_of_validity: {conditions: [], match_mode: "all"}
+  target_state: {state_description: "none", state_parameters: {}}
+  trajectory_constraints: {max_rate: {}, forbidden_zones: []}
+  max_duration: "PT0S"
+  unavailable_action: "freeze"
+  post_fallback_action: "hold"
+  verification_record: {verified_in_simulation: false, verified_scenarios: [], last_verification_date: "2026-01-01T00:00:00Z"}
+
+action_templates:
+  knowledge_base_reference: "test"
+  immediate_action_types: []
+  conditional_action_types: []
+  forbidden_action_types: []
+
+human_roles: []
